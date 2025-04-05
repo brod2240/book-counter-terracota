@@ -170,22 +170,8 @@
 </div>
 
 <script>
-    // Function to get a query parameter value by name
-    function getQueryParam(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-    }
-
-    // Function to set a query parameter in the URL
-    function setQueryParam(name, value) {
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set(name, value);
-        window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
-    }
-
-    // Initialize book count and goal from URL parameters (if available)
-    let bookCount = parseInt(getQueryParam('bookCount')) || 0;
-    let readingGoal = parseInt(getQueryParam('readingGoal')) || 0;
+    let bookCount = parseInt(localStorage.getItem('bookCount')) || 0;
+    let readingGoal = parseInt(localStorage.getItem('readingGoal')) || 0;
 
     // Update the book count and progress bar when the page loads
     updateBookCount();
@@ -232,10 +218,11 @@
         }
     }
 
-    // Function to save data to the URL query parameters
+    // Function to save data to localStorage
     function saveData() {
-        setQueryParam('bookCount', bookCount);
-        setQueryParam('readingGoal', readingGoal);
+        console.log("Saving data:", bookCount, readingGoal);
+        localStorage.setItem('bookCount', bookCount);
+        localStorage.setItem('readingGoal', readingGoal);
     }
 </script>
 

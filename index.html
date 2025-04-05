@@ -170,8 +170,29 @@
 </div>
 
 <script>
-    let bookCount = parseInt(localStorage.getItem('bookCount')) || 0;
-    let readingGoal = parseInt(localStorage.getItem('readingGoal')) || 0;
+    // Function to get a cookie value by name
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Function to set a cookie with a name, value, and expiration time
+    function setCookie(name, value, days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    // Initialize book count and goal from cookies (if available)
+    let bookCount = parseInt(getCookie('bookCount')) || 0;
+    let readingGoal = parseInt(getCookie('readingGoal')) || 0;
 
     // Update the book count and progress bar when the page loads
     updateBookCount();
@@ -218,10 +239,10 @@
         }
     }
 
-    // Function to save data to localStorage
+    // Function to save data to cookies
     function saveData() {
-        localStorage.setItem('bookCount', bookCount);
-        localStorage.setItem('readingGoal', readingGoal);
+        setCookie('bookCount', bookCount, 365); // Store for 1 year
+        setCookie('readingGoal', readingGoal, 365); // Store for 1 year
     }
 </script>
 

@@ -170,29 +170,22 @@
 </div>
 
 <script>
-    // Function to get a cookie value by name
-    function getCookie(name) {
-        let nameEQ = name + "=";
-        let ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
+    // Function to get a query parameter value by name
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
     }
 
-    // Function to set a cookie with a name, value, and expiration time
-    function setCookie(name, value, days) {
-        let date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        let expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    // Function to set a query parameter in the URL
+    function setQueryParam(name, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set(name, value);
+        window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
     }
 
-    // Initialize book count and goal from cookies (if available)
-    let bookCount = parseInt(getCookie('bookCount')) || 0;
-    let readingGoal = parseInt(getCookie('readingGoal')) || 0;
+    // Initialize book count and goal from URL parameters (if available)
+    let bookCount = parseInt(getQueryParam('bookCount')) || 0;
+    let readingGoal = parseInt(getQueryParam('readingGoal')) || 0;
 
     // Update the book count and progress bar when the page loads
     updateBookCount();
@@ -239,10 +232,10 @@
         }
     }
 
-    // Function to save data to cookies
+    // Function to save data to the URL query parameters
     function saveData() {
-        setCookie('bookCount', bookCount, 365); // Store for 1 year
-        setCookie('readingGoal', readingGoal, 365); // Store for 1 year
+        setQueryParam('bookCount', bookCount);
+        setQueryParam('readingGoal', readingGoal);
     }
 </script>
 

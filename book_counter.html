@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tracker Widget</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .tracker-container {
+            text-align: center;
+            border: 2px solid #CD5C5C;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            max-width: 400px;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .tracker-header {
+            font-size: 24px;
+            color: #CD5C5C;
+            margin-bottom: 20px;
+        }
+
+        .book-count {
+            font-size: 32px;
+            font-weight: bold;
+            color: #CD5C5C;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .goal-input-container {
+            margin-top: 20px;
+        }
+
+        .goal-input {
+            padding: 10px;
+            border: 1px solid #CD5C5C;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 80%; /* Adjusted width */
+            max-width: 250px; /* Max width to prevent it from getting too long */
+            margin: 0 auto 10px; /* Centering input and adding margin */
+            color: #CD5C5C;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #CD5C5C;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+            border-radius: 10px 0 0 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #CD5C5C;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e57373;
+        }
+    </style>
+</head>
+<body>
+
+<div class="tracker-container">
+    <div class="tracker-header">Books Read</div>
+    <div class="book-count" id="book-count">0</div>
+
+    <div class="buttons-container">
+        <button onclick="decreaseCount()">-</button>
+        <button onclick="increaseCount()">+</button>
+    </div>
+
+    <div class="goal-input-container">
+        <input 
+            type="number" 
+            id="reading-goal" 
+            class="goal-input" 
+            placeholder="Set Your Reading Goal"
+            oninput="updateGoal()"
+        />
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let bookCount = 0;
+    let readingGoal = 0;
+
+    // Function to increase the book count
+    function increaseCount() {
+        bookCount++;
+        updateBookCount();
+        updateProgress();
+    }
+
+    // Function to decrease the book count (ensure it doesn't go below 0)
+    function decreaseCount() {
+        if (bookCount > 0) {
+            bookCount--;
+            updateBookCount();
+            updateProgress();
+        }
+    }
+
+    // Function to update the displayed book count
+    function updateBookCount() {
+        document.getElementById('book-count').innerText = bookCount;
+    }
+
+    // Function to update the reading goal from input
+    function updateGoal() {
+        readingGoal = parseInt(document.getElementById('reading-goal').value) || 0;
+        updateProgress();
+    }
+
+    // Function to update the progress bar
+    function updateProgress() {
+        const progress = document.getElementById('progress');
+        const progressBar = document.getElementById('reading-goal').value;
+
+        if (readingGoal > 0) {
+            const progressPercentage = (bookCount / readingGoal) * 100;
+            progress.style.width = Math.min(progressPercentage, 100) + '%';
+        } else {
+            progress.style.width = '0%';
+        }
+    }
+</script>
+
+</body>
+</html>

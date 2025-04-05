@@ -171,7 +171,7 @@
 
 <script>
 
-    console.log("Script loaded!"); // Test if script is loading
+    console.log("Script loaded!"); // Check if script is loading
 
     let bookCount = parseInt(localStorage.getItem('bookCount')) || 0;
     let readingGoal = parseInt(localStorage.getItem('readingGoal')) || 0;
@@ -180,8 +180,12 @@
     updateBookCount();
     updateProgress();
 
+    // Set the input field value to the stored reading goal
+    document.getElementById('reading-goal').value = readingGoal;
+
     // Function to increase the book count
     function increaseCount() {
+        console.log("increaseCount triggered!");  // Log if this function is being triggered
         bookCount++;
         updateBookCount();
         updateProgress();
@@ -191,6 +195,7 @@
     // Function to decrease the book count (ensure it doesn't go below 0)
     function decreaseCount() {
         if (bookCount > 0) {
+            console.log("decreaseCount triggered!");  // Log if this function is being triggered
             bookCount--;
             updateBookCount();
             updateProgress();
@@ -200,11 +205,13 @@
 
     // Function to update the displayed book count
     function updateBookCount() {
+        console.log("Updating book count");  // Log if the count is being updated
         document.getElementById('book-count').innerText = bookCount;
     }
 
     // Function to update the reading goal from input
     function updateGoal() {
+        console.log("updateGoal triggered!");  // Log if the goal is updated
         readingGoal = parseInt(document.getElementById('reading-goal').value) || 0;
         updateProgress();
         saveData();
@@ -223,7 +230,7 @@
 
     // Function to save data to localStorage
     function saveData() {
-        console.log("Saving data:", bookCount, readingGoal);
+        console.log("Saving data:", bookCount, readingGoal); // Log before saving to localStorage
         localStorage.setItem('bookCount', bookCount);
         localStorage.setItem('readingGoal', readingGoal);
     }
